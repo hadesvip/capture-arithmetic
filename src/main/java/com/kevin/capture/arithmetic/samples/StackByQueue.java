@@ -1,5 +1,7 @@
 package com.kevin.capture.arithmetic.samples;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -25,7 +27,7 @@ public class StackByQueue<T> {
      * @param value 值
      */
     public void push(T value) {
-        if (!first.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(first)) {
             first.offer(value);
         } else {
             second.offer(value);
@@ -36,13 +38,13 @@ public class StackByQueue<T> {
         if (first.isEmpty() && second.isEmpty()) {
             throw new EmptyStackException();
         }
-        if (first.isEmpty() && !second.isEmpty()) {
+        if (CollectionUtils.isEmpty(first) && CollectionUtils.isNotEmpty(second)) {
             while (second.size() > 1) {
                 first.offer(second.poll());
             }
             return second.poll();
         }
-        if (!first.isEmpty() && second.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(first) && CollectionUtils.isEmpty(second)) {
             while (first.size() > 1) {
                 second.offer(first.poll());
             }
