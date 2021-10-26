@@ -134,7 +134,6 @@ class QueueByStack2<T> {
         return output.pop();
     }
 
-
     public boolean empty() {
         return input.isEmpty() && output.empty();
     }
