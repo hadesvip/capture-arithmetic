@@ -98,8 +98,7 @@ public class QueueByStack<T> {
  * * 1. 采用两个栈：一个是输出栈、一个是输入栈
  * * 1.1 输出栈 pop、peek操作
  * * 2.2 输入栈 push操作
- *
- * @param <T>
+ * @author kevin
  */
 class QueueByStack2<T> {
 
