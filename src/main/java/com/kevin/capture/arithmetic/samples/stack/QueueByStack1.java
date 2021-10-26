@@ -1,4 +1,4 @@
-package com.kevin.capture.arithmetic.samples;
+package com.kevin.capture.arithmetic.samples.stack;
 
 import java.util.Stack;
 
@@ -13,7 +13,7 @@ import java.util.Stack;
  *
  * @author kevin
  */
-public class QueueByStack<T> {
+public class QueueByStack1<T> {
 
     /**
      * 数据栈
@@ -61,7 +61,7 @@ public class QueueByStack<T> {
 
 
     public static void main(String[] args) {
-        QueueByStack<String> queue = new QueueByStack<>();
+        QueueByStack1<String> queue = new QueueByStack1<>();
         queue.push("1");
         queue.push("2");
         queue.push("3");
@@ -75,7 +75,7 @@ public class QueueByStack<T> {
 //        System.out.println(queue.pop());
 //        System.out.println(queue.pop());
 
-        QueueByStack<String> queue2 = new QueueByStack<>();
+        QueueByStack2<String> queue2 = new QueueByStack2<>();
         queue2.push("1");
         queue2.push("2");
         queue2.push("3");
@@ -93,49 +93,3 @@ public class QueueByStack<T> {
 
 }
 
-/**
- * 解法二: 复杂度(O(1))
- * * 1. 采用两个栈：一个是输出栈、一个是输入栈
- * * 1.1 输出栈 pop、peek操作
- * * 2.2 输入栈 push操作
- * @author kevin
- */
-class QueueByStack2<T> {
-
-    /**
-     * 输入栈
-     */
-    private final Stack<T> input = new Stack<>();
-
-    /**
-     * 输出栈
-     */
-    private final Stack<T> output = new Stack<>();
-
-    public void push(T value) {
-        input.push(value);
-    }
-
-    public T peek() {
-        if (output.empty()) {
-            while (!input.empty()) {
-                output.push(input.pop());
-            }
-        }
-        return output.peek();
-    }
-
-    public T pop() {
-        if (output.empty()) {
-            while (!input.empty()) {
-                output.push(input.pop());
-            }
-        }
-        return output.pop();
-    }
-
-    public boolean empty() {
-        return input.isEmpty() && output.empty();
-    }
-
-}

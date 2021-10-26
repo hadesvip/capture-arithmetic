@@ -1,4 +1,4 @@
-package com.kevin.capture.arithmetic.samples;
+package com.kevin.capture.arithmetic.samples.queue;
 
 import org.apache.commons.collections4.CollectionUtils;
 
