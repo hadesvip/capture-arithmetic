@@ -34,13 +34,20 @@ public class ReverseCode {
   }
 
 
+  /**
+   * 方案一
+   */
   private static <T> Node reverse(Node<T> head) {
     //新链表的头节点
     Node<T> reverse = null;
     //备份当前节点的下一个节点
     Node<T> next = null;
-
-
+    while (Objects.nonNull(head)) {
+      next = head.next;
+      head.next = reverse;
+      reverse = head;
+      head = next;
+    }
     return reverse;
   }
 
