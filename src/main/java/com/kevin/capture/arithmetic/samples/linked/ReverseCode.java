@@ -40,6 +40,7 @@ public class ReverseCode {
     //备份当前节点的下一个节点
     Node<T> next = null;
 
+
     return reverse;
   }
 
