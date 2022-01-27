@@ -1,5 +1,6 @@
 package com.kevin.capture.arithmetic.samples;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,10 +17,8 @@ public class DecimalConvertBinaryTest {
     @Test
     public void decimalConvertBinaryTest() {
         String binaryNumber = decimalConvertBinary(11);
-        System.out.println(binaryNumber);
-
-        String binaryString = Integer.toBinaryString(11);
-        System.out.println(binaryString);
+        String expectedNumber = Integer.toBinaryString(11);
+        Assert.assertEquals(binaryNumber, expectedNumber);
     }
 
 
