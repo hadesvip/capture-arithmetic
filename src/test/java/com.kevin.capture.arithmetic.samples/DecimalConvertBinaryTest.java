@@ -23,6 +23,9 @@ public class DecimalConvertBinaryTest {
 
 
     private String decimalConvertBinary(int num) {
+        if (num < 0) {
+            throw new RuntimeException("暂不支持负数转换");
+        }
         List<Integer> numList = new ArrayList<>();
         while (num != 0) {
             int mod = num % 2;
