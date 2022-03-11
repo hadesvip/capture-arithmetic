@@ -20,107 +20,140 @@ import java.util.Objects;
 public class LRUCode<T> {
 
 
-    public static class Node<T> {
-        String key;
 
-        T value;
+    static class Node {
 
-        Node<T> prev;
+        Integer key;
 
-        Node<T> next;
+        Integer value;
 
-        public Node(String key, T value) {
+        Node prev;
+
+        Node next;
+
+        public Node(Integer key,Integer value){
             this.key = key;
             this.value = value;
         }
     }
 
 
-    private final Map<String, Node<T>> nodeMap = new HashMap<>();
+    Map<Integer,Node> cacheNodeMap = new HashMap<>();
 
     /**
-     * 默认5个容量
+     * 默认5个长度
      */
-    private int capacity = 5;
+    int capacity = 5;
 
     /**
      * 头部
      */
-    private Node<T> head = null;
+    private Node head = null;
 
     /**
      * 尾部
      */
-    private Node<T> tail = null;
+    private Node tail = null;
+
+
 
     public LRUCode(int capacity) {
         this.capacity = capacity;
     }
 
-    public void put(String key, T value) {
-        Node<T> node = nodeMap.get(key);
-        if (Objects.nonNull(node)) {
-            node.value = value;
-            //删除这个元素
-            remove(node);
-            //放到链表头部
-            appendHead(node);
+    public int get(int key) {
+        Node node = cacheNodeMap.get(key);
+        if (node == null){
+            return -1;
         }
-        //未超过容量
-        else if (nodeMap.size() < capacity ) {
-            Node<T> currentNode = new Node<>(key, value);
-            appendHead(currentNode);
-        }
-        //超过容量
+        // 存在，删除原节点，放入头节点
         else {
-            //删除链表尾部元素
-            Node<T> currentNode = new Node<>(key, value);
-            nodeMap.remove(tail.key);
-            remove(tail);
-            appendHead(currentNode);
-            nodeMap.put(currentNode.key, currentNode);
+            remove(node);
+            addHead(node);
+            return node.value;
         }
     }
 
-    private void appendHead(Node<T> node) {
-        if (Objects.isNull(head)) {
-            head = tail = node;
+    public void put(int key, int value) {
+        Node node = cacheNodeMap.get(key);
+        int size = cacheNodeMap.size();
+        //存在，更新数据
+        if(node != null){
+            node.value = value;
+            remove(node);
+            addHead(node);
+        }
+        // 未超过最大容量
+        else if (size < capacity) {
+            Node newNode = new Node(key,value);
+            //放入头节点
+            addHead(newNode);
+            //添加缓存
+            cacheNodeMap.put(key,newNode);
+        }
+        // 超过最大容量,剔除尾部节点，添加新节点到头部
+        else {
+            Node newNode = new Node(key,value);
+            // 删除尾部节点缓存
+            cacheNodeMap.remove(tail.key);
+            // 删除尾部节点
+            remove(tail);
+            // 添加新节点到头部
+            addHead (newNode);
+            // 新节点加入缓存
+            cacheNodeMap.put(key,newNode);
+        }
+    }
+
+
+    void addHead(Node node){
+        if(head == null){
+            head = node;
+            tail = node;
         } else {
+            node.prev = node;
             node.next = head;
-            node.prev = null;
             head = node;
         }
     }
 
-
-    public Node<T> get(String key) {
-        Node<T> node = nodeMap.get(key);
-        if (Objects.nonNull(node)) {
-            return node;
-        }
-        return null;
-    }
-
-    private void remove(Node<T> node) {
-        if (head == node) {
+    void remove(Node node){
+        if (head == tail){
+            head = null;
+            tail = null;
+        } else if (node == head) {
             head = head.next;
-            head.prev = null;
-            return;
-        }
-        if (tail == node) {
+            node.prev = null;
+        } else if (node == tail){
             tail = tail.prev;
-            tail.next = null;
-            return;
+            node.next = null;
         }
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-        node.prev = null;
-        node.next = null;
+        // 其他节点
+        else {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            node.prev = null;
+            node.next = null;
+        }
     }
 
-
+    /**
+     * ["LRUCache","put","put","get","put","get","put","get","get","get"]
+     * [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+     *
+     */
     public static void main(String[] args) {
-
+        LRUCode lruCode = new LRUCode(2);
+        lruCode.put(1, 1);
+        lruCode.put(2, 2);
+        lruCode.put(3, 3);
+        lruCode.get(2);
+        lruCode.put(4, 4);
+        lruCode.get(1);
+        lruCode.get(3);
+        lruCode.get(4);
     }
+
+
 
 }
