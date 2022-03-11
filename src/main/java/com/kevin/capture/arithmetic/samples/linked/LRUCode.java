@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  * @author kevin
  */
-public class LRUCode<T> {
+public class LRUCode{
 
 
 
@@ -113,6 +113,7 @@ public class LRUCode<T> {
         } else {
             node.prev = node;
             node.next = head;
+            head.prev = node;
             head = node;
         }
     }

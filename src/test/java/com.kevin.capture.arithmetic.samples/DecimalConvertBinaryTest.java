@@ -16,8 +16,8 @@ public class DecimalConvertBinaryTest {
 
     @Test
     public void decimalConvertBinaryTest() {
-        String binaryNumber = decimalConvertBinary(11);
         String expectedNumber = Integer.toBinaryString(11);
+        String binaryNumber = decimalConvertBinary(11);
         Assert.assertEquals(binaryNumber, expectedNumber);
     }
 
